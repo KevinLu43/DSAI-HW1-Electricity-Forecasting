@@ -1,3 +1,4 @@
+from utils import Model
 
 if __name__ == '__main__':
     # You should not modify this part, but additional arguments are allowed.
@@ -7,6 +8,10 @@ if __name__ == '__main__':
     parser.add_argument('--training',
                        default='training_data.csv',
                        help='input training data file name')
+
+    parser.add_argument('--predicting',
+                        default='march_data.csv',
+                        help='input predecting data file name')
 
     parser.add_argument('--output',
                         default='submission.csv',
@@ -19,5 +24,6 @@ if __name__ == '__main__':
     df_training = pd.read_csv(args.training)
     model = Model()
     model.train(df_training)
-    df_result = model.predict(n_step=7)
+    df_predicting = pd.read_csv(args.predicting)
+    df_result = model.predict(df_predicting)
     df_result.to_csv(args.output, index=0)
