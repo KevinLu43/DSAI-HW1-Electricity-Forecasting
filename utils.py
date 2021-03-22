@@ -1,3 +1,5 @@
+from datetime import timedelta
+from dateutil.parser import parse
 import numpy as np
 import pandas as pd
 from random import randint
@@ -51,16 +53,18 @@ class Model:
 
         return np.array(X), np.array(Y), tag
 
-    def __test__data__reorganize(self, load, workday):
+    def __test__data__reorganize(self, load, workday,date):
         X = []
+        Date = []
         for i in range(load.size-14):
             X.append([
                  workday[i], load[i],
                  workday[i+7], load[i+7],
                  workday[i+14], load[i+14],
                  workday[i+14]])
-
-        return np.array(X)
+            d = parse(date[i+14])
+            Date.append(str((d+timedelta(days=7)).date()))
+        return np.array(X), Date
 
     def __train_test_split(self, x, y,test_ratio):
         train_X, test_X, train_Y, test_Y = train_test_split(x, y, test_size=test_ratio, random_state=32)
@@ -94,7 +98,7 @@ class Model:
         date = df["date"].values
 
         # Reorganize data to 4 weeks a set
-        X = self.__test__data__reorganize(load, workday)
+        X, Date = self.__test__data__reorganize(load, workday, date)
 
         outputs = []
         targets = []
@@ -103,7 +107,7 @@ class Model:
             h = self.__model__.init_hidden(1)
             out, h = self.__model__(from_numpy(X[i]).to(device).float().view(1,1,7), h)
             outputs.append(self.label_scaler.inverse_transform(out.cpu().detach().numpy())[0][0])
-        return pd.DataFrame({"predict": outputs})
+        return pd.DataFrame({"date": Date,"operating_reserve(HW)": outputs})
 
 class GRUNET(nn.Module):
     def __init__(self, hidden_dim, n_layers, drop_prob=0.1):
