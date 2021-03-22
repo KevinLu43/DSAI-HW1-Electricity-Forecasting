@@ -24,11 +24,9 @@ The total observations of collecting data is 811, the data were splited as train
 
 The model contains several layers, including two hidden layers which used GRU method and contained 16 units in each layer, one fully connected network with only one neuron was taken as the output layer.
 
-After training the model, the RMSE of testing set is:
-
 In order to generate the prediction, the input data should contain the imformation from 3/2 to 3/22, but the data only available until 3/21, therefore the operating reserve of 3/22 was predicted first and take it as the input to the model.
 
-The final prediction:
+The final prediction is provided in root.
 
 Reference
 ---
