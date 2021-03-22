@@ -20,9 +20,13 @@ Model Construction
 ---
 The **LSTM** is widly used recently and had good performance, so the LSTM is considered to construct the predict model. On the other hand, considering the neural network usually has to train plently of parameters, the history data set only contain 811 observations, the **Gated Recurrent Unit (GRU)** is taken to bulid the model because of the less parameters and good performance which were compared to LSTM[2].
 
-The total observations of collecting data is 811, the data were splited as training set and testing set by following 80/20 rule. As mentioned in previous paragraph, the feature: "Is working day" was encoded as dummy variable. The data were clustered by "Week day" at the same time.
+The total observations of collecting data is 811, the data were splited as training set and testing set by following 80/20 rule. As mentioned in previous paragraph, the feature: "Is working day" was encoded as dummy variable. The data were clustered by "Week day" at the same time. The data can be split to 7 clusters, then reshape each observation of training set, make the observation contains 7 dimentions: the operating reserve of this week day in past three weeks and the dummy variable of "Is working day".
+
+The model contains several layers, including two hidden layers which used GRU method and contained 16 units in each layer, one fully connected network with only one neuron was taken as the output layer.
 
 After training the model, the RMSE of testing set is:
+
+In order to generate the prediction, the input data should contain the imformation from 3/2 to 3/22, but the data only available until 3/21, therefore the operating reserve of 3/22 was predicted first and take it as the input to the model.
 
 The final prediction:
 
