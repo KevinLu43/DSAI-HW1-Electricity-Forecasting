@@ -24,6 +24,12 @@ The total observations of collecting data is 811, the data were splited as train
 
 The model contains several layers, including two hidden layers which used GRU method and contained 16 units in each layer, one fully connected network with only one neuron was taken as the output layer.
 
+The loss comparison between training and testing is shown as below:
+
+![image](https://github.com/KevinLu43/DSAI-HW1-Electricity-Forecasting/blob/main/figure/Figure_1.png)
+
+The red line is the testing loss and the blue line represented the training loss.
+
 In order to generate the prediction, the input data should contain the imformation from 3/2 to 3/22, but the data only available until 3/21, therefore the operating reserve of 3/22 was predicted first and take it as the input to the model.
 
 The final prediction is provided in root.
